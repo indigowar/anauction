@@ -3,9 +3,102 @@ package templates
 import "github.com/indigowar/anauction/templates/common/page"
 import "github.com/indigowar/anauction/templates/common/navigation"
 
+// TODO: Rewrite this to use real data
 templ Index() {
 	@page.Page(page.Header("AnAuction")) {
-		@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), make([]templ.Component, 0))
-		<h1>Hello, it's AnAuction service. <small>Stable, Affordable, Cool</small></h1>
+		<div>
+			@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), make([]templ.Component, 0))
+			@indexLandingHeader()
+			@indexItemList()
+			@page.Footer()
+		</div>
 	}
+}
+
+templ indexLandingHeader() {
+	<div class="block m-5 index-landing-header">
+		<div class="has-text-centered">
+			<h1 class="title mt-2">An Auction</h1>
+			<h2 class="subtitle m-1">Your internet auction service</h2>
+		</div>
+		<div class="level py-5">
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">Active Users</p>
+					<p class="title">31,456</p>
+				</div>
+			</div>
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">Items on the Auction RIGHT NOW</p>
+					<p class="title">812</p>
+				</div>
+			</div>
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">Closed auctions</p>
+					<p class="title">22.4k</p>
+				</div>
+			</div>
+			<div class="level-item has-text-centered">
+				<div>
+					<p class="heading">Average Price</p>
+					<p class="title">354$</p>
+				</div>
+			</div>
+		</div>
+		<div class="has-text-centered mx-10">
+			<h1 class="title"><b>Join today</b></h1>
+			<div class="columns">
+				<div class="column"></div>
+				<div class="buttons is-one-fifth">
+					<a class="button is-primary" href="/auth/signin">Sign In</a>
+					<a class="button is-primary" href="/auth/login">Log In</a>
+				</div>
+				<div class="column"></div>
+			</div>
+		</div>
+	</div>
+	<style>
+		.index-landing-header {
+			background-color:#E8F5E9;
+		}
+	</style>
+}
+
+templ indexItemList() {
+	<div class="columns">
+		<div class="column"></div>
+		<div class="column is-four-fifths">
+			<div class="block mx-5 fixed-grid has-7-cols-fullhd">
+				<div class="grid">
+					for range 6 {
+						<div class="cell">
+							@item()
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="column"></div>
+	</div>
+}
+
+templ item() {
+	<div class="card">
+		<div class="card-image">
+			<figure class="image">
+				<img
+					src="https://bulma.io/assets/images/placeholders/1280x960.png"
+					alt="Placeholder image"
+				/>
+			</figure>
+		</div>
+		<div class="card-content"></div>
+		<div class="content">
+			This is a very cool piece of hardware, that I no longer need.
+			<br/>
+			<time datetime="2024-1-1">11:09 - 1 Jan 2024</time>
+		</div>
+	</div>
 }
