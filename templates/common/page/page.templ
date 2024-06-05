@@ -1,0 +1,13 @@
+package page
+
+templ Page(header templ.Component) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			@header
+		</head>
+		<body>
+			{ children... }
+		</body>
+	</html>
+}

@@ -1,0 +1,34 @@
+package templates
+
+import "github.com/indigowar/anauction/templates/common/page"
+import "github.com/indigowar/anauction/templates/common/form"
+
+templ Login(handle string, toSignIn string) {
+	@page.Page(page.Header("Log In - AnAuction")) {
+		<div class={ "container", "is-max-desktop", "mt-6" }>
+			@form.Form(form.FormOpts{
+				Label:      "Login",
+				Handler:    handle,
+				Id:         "login-form",
+				ButtonText: "Login",
+			}) {
+				@form.TextField(form.TextFieldOpts{
+					Label:       "Email:",
+					Type:        "email",
+					Placeholder: "Enter your email...",
+					Id:          "email",
+					Name:        "email",
+					Required:    true,
+				})
+				@form.TextField(form.TextFieldOpts{
+					Label:       "Password:",
+					Type:        "password",
+					Placeholder: "Enter your password",
+					Id:          "password",
+					Name:        "password",
+					Required:    true,
+				})
+			}
+		</div>
+	}
+}

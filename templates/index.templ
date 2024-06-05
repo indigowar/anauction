@@ -1,0 +1,16 @@
+package templates
+
+import "github.com/indigowar/anauction/templates/common/page"
+import "github.com/indigowar/anauction/templates/common/navigation"
+
+templ Index() {
+	@page.Page(page.Header("AnAuction")) {
+		@navigation.Bar("127.0.0.1/assets/flavicon.svg", "127.0.0.1", make([]templ.Component, 0), make([]templ.Component, 0))
+		<div class="row">
+			<div class="col-sm-1">Left</div>
+			<div class="col-sm">Middle</div>
+			<div class="col-sm-1">Right</div>
+		</div>
+		<h1>Hello, it's AnAuction service. <small>Stable, Affordable, Cool</small></h1>
+	}
+}
