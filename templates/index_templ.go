@@ -32,11 +32,11 @@ func Index() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = navigation.Bar("", "127.0.0.1", make([]templ.Component, 0), make([]templ.Component, 0)).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), make([]templ.Component, 0)).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"row\"><div class=\"col-sm-1\">Left</div><div class=\"col-sm\">Middle</div><div class=\"col-sm-1\">Right</div></div><h1>Hello, it's AnAuction service. <small>Stable, Affordable, Cool</small></h1>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <h1>Hello, it's AnAuction service. <small>Stable, Affordable, Cool</small></h1>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

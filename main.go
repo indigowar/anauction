@@ -18,6 +18,8 @@ func main() {
 
 	r := echo.New()
 
+	r.Static("/static", "./assets/")
+
 	r.GET("/", handlers.Index)
 	r.GET("/auth/login", handlers.ServeLoginPage(addr+"/auth/register", addr+"/auth/signin"))
 
