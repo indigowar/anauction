@@ -2,6 +2,7 @@ package templates
 
 import "github.com/indigowar/anauction/templates/common/page"
 import "github.com/indigowar/anauction/templates/common/navigation"
+import "time"
 
 // TODO: Rewrite this to use real data
 templ Index() {
@@ -98,7 +99,7 @@ templ item() {
 		<div class="content">
 			This is a very cool piece of hardware, that I no longer need.
 			<br/>
-			<time datetime="2024-1-1">11:09 - 1 Jan 2024</time>
+			<time>{ time.Now().UTC().Format("03:04 - 02-01-06") }</time>
 		</div>
 	</div>
 }

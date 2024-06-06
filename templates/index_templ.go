@@ -12,7 +12,9 @@ import "bytes"
 
 import "github.com/indigowar/anauction/templates/common/page"
 import "github.com/indigowar/anauction/templates/common/navigation"
+import "time"
 
+// TODO: Rewrite this to use real data
 func Index() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -151,7 +153,20 @@ func item() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card\"><div class=\"card-image\"><figure class=\"image\"><img src=\"https://bulma.io/assets/images/placeholders/1280x960.png\" alt=\"Placeholder image\"></figure></div><div class=\"card-content\"></div><div class=\"content\">This is a very cool piece of hardware, that I no longer need.<br><time datetime=\"2024-1-1\">11:09 - 1 Jan 2024</time></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card\"><div class=\"card-image\"><figure class=\"image\"><img src=\"https://bulma.io/assets/images/placeholders/1280x960.png\" alt=\"Placeholder image\"></figure></div><div class=\"card-content\"></div><div class=\"content\">This is a very cool piece of hardware, that I no longer need.<br><time>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().UTC().Format("03:04 - 02-01-06"))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/index.templ`, Line: 102, Col: 54}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</time></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
