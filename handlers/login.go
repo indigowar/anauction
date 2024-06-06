@@ -6,8 +6,7 @@ import (
 	"github.com/indigowar/anauction/templates"
 )
 
-// ServeLoginPage - serves login form
-func ServeLoginPage(handle string, signIn string) echo.HandlerFunc {
+func loginPage(handle string, signIn string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		return templates.Login(handle, signIn).Render(c.Request().Context(), c.Response().Writer)
 	}

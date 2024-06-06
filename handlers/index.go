@@ -6,6 +6,8 @@ import (
 	"github.com/indigowar/anauction/templates"
 )
 
-func Index(c echo.Context) error {
-	return templates.Index().Render(c.Request().Context(), c.Response().Writer)
+func indexPage() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		return templates.Index().Render(c.Request().Context(), c.Response().Writer)
+	}
 }
