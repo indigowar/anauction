@@ -1,9 +1,0 @@
-gen:
-	templ generate ./...
-	go generate ./...
-
-test: gen
-	go test ./...
-
-run: gen
-	go run main.go
