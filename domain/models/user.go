@@ -63,6 +63,10 @@ func (u *User) SetPassword(value string) error {
 	return nil
 }
 
+func (u *User) ComparePassword(value string) bool {
+	return bcrypt.CompareHashAndPassword([]byte(u.password), []byte(value)) == nil
+}
+
 func NewUser(
 	name string,
 	email *mail.Address,
