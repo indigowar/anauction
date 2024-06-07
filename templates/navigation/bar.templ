@@ -1,0 +1,23 @@
+package navigation
+
+templ Bar(icon string, brandLink string, left []templ.Component, right []templ.Component) {
+	<nav class="navbar" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+			<a class="navbar-item" href={ templ.SafeURL(brandLink) }>
+				<strong>AnAuction</strong>
+			</a>
+		</div>
+		<div class="navbar-menu">
+			<div class="navbar-start">
+				for _, item := range left {
+					@item
+				}
+			</div>
+			<div class="navbar-end">
+				for _, item := range right {
+					@item
+				}
+			</div>
+		</div>
+	</nav>
+}

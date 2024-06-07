@@ -1,0 +1,21 @@
+package navigation
+
+templ Link(title string, url string) {
+	<a class="navbar-item" href={ templ.SafeURL(url) }>
+		{ title }
+	</a>
+}
+
+// DropdownLink a link item for navigation that shows dropdown menu.
+// Items of the menu are provded by links argument, where link title is a key,
+// and URL is its value.
+templ DropdownLink(title string, links map[string]string) {
+	<div class="navbar-item has-dropdown is-hoverable">
+		<a class="navbar-link">{ title }</a>
+		<div class="navbar-dropdown">
+			for title, url := range links {
+				<a class="navbar-item" href={ templ.SafeURL(url) }>{ title }</a>
+			}
+		</div>
+	</div>
+}
