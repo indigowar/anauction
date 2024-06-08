@@ -10,6 +10,7 @@ type TextFieldOpts struct {
 	Value       string
 	Required    bool
 	ReadOnly    bool
+	IsDanger    bool
 }
 
 templ TextField(opts TextFieldOpts) {
@@ -19,7 +20,11 @@ templ TextField(opts TextFieldOpts) {
 		}
 		<div class={ "control" }>
 			<input
-				class={ "input" }
+				if opts.IsDanger {
+					class={ "input is-danger" }
+				} else {
+					class={ "input" }
+				}
 				if opts.Type != "" {
 					type={ opts.Type }
 				}
