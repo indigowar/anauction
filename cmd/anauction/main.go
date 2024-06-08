@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,14 +14,17 @@ import (
 )
 
 func main() {
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	router := echo.New()
 
-	handlers.Setup(router, handlers.SetupSettings{})
+	handlers.Setup(router, handlers.SetupSettings{
+		Logger: logger,
+	})
 
-	run(router)
+	run(router, logger)
 }
 
-func run(router *echo.Echo) {
+func run(router *echo.Echo, logger *slog.Logger) {
 	server := &http.Server{
 		Addr:    ":8000",
 		Handler: router,
@@ -29,7 +32,11 @@ func run(router *echo.Echo) {
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatal(err)
+			logger.Error(
+				"server ListenAndServe failed",
+				"err", err,
+			)
+			os.Exit(1)
 		}
 	}()
 
@@ -42,8 +49,12 @@ func run(router *echo.Echo) {
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		log.Fatalf("Failed to stop server gracefully: %s\n Forcing to shut down", err)
+		logger.Error(
+			"Failed to stop the server gracefully",
+			"Error", err,
+		)
+		os.Exit(1)
 	}
 
-	log.Println("Server is stopped")
+	logger.Info("Server is stopped")
 }
