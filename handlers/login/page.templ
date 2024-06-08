@@ -40,3 +40,38 @@ templ signInButtonSet() {
 		<a href="/auth/signin" class="button is-primary">Sign In</a>
 	</div>
 }
+
+templ formWithAnError(emailValue string, passwordValue string, error string) {
+	<article class="message is-danger">
+		<div class="message-header">
+			<p>Failed to log in</p>
+			<button class="delete" aria-label="delete"></button>
+		</div>
+		<div class="message-body">{ error }</div>
+	</article>
+	@form.Form(form.FormOpts{
+		Label:      "Login",
+		Handler:    "/auth/login",
+		Id:         "#login-form",
+		ButtonText: "Login",
+	}) {
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Email:",
+			Type:        "email",
+			Placeholder: "Enter your email...",
+			Id:          "email",
+			Name:        "email",
+			Value:       emailValue,
+			Required:    true,
+		})
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Password:",
+			Type:        "password",
+			Placeholder: "Enter your password",
+			Id:          "password",
+			Name:        "password",
+			Value:       passwordValue,
+			Required:    true,
+		})
+	}
+}

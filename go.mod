@@ -2,6 +2,8 @@ module github.com/indigowar/anauction
 
 go 1.22.3
 
+require github.com/alexedwards/scs/v2 v2.8.0
+
 require (
 	github.com/a-h/templ v0.2.707 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
@@ -12,6 +14,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/samber/lo v1.38.1 // indirect
 	github.com/samber/slog-echo v1.14.2 // indirect
+	github.com/spazzymoto/echo-scs-session v1.0.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.opentelemetry.io/otel v1.19.0 // indirect
