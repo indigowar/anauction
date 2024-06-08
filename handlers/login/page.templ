@@ -2,9 +2,11 @@ package login
 
 import "github.com/indigowar/anauction/templates/page"
 import "github.com/indigowar/anauction/templates/form"
+import "github.com/indigowar/anauction/templates/navigation"
 
 templ login() {
 	@page.Page(page.Header("Log In - AnAuction")) {
+		@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), []templ.Component{signInButtonSet()})
 		<div class={ "container", "is-max-desktop", "mt-6" }>
 			@form.Form(form.FormOpts{
 				Label:      "Login",
@@ -31,4 +33,10 @@ templ login() {
 			}
 		</div>
 	}
+}
+
+templ signInButtonSet() {
+	<div class="buttons">
+		<a href="/auth/signin" class="button is-primary">Sign In</a>
+	</div>
 }
