@@ -11,25 +11,25 @@ import (
 	"github.com/indigowar/anauction/domain/models"
 )
 
-type AuthService struct {
+type Auth struct {
 	logger *slog.Logger
 
 	userStorage UserStorage
 }
 
-func (svc *AuthService) SignIn(ctx context.Context, name string, email *mail.Address, password string) (uuid.UUID, error) {
+func (auth *Auth) SignIn(ctx context.Context, name string, email *mail.Address, password string) (uuid.UUID, error) {
 	user, err := models.NewUser(name, email, nil, password)
 	if err != nil {
 		return uuid.UUID{}, err
 	}
 
-	if err := svc.userStorage.Add(ctx, user); err != nil {
+	if err := auth.userStorage.Add(ctx, user); err != nil {
 		var duplicationErr *DuplicationError
 		if errors.As(err, &duplicationErr) {
 			return uuid.UUID{}, err
 		}
 
-		svc.logger.Error(
+		auth.logger.Error(
 			"AuthService.SignIn has FAILED",
 			"error", err.Error(),
 		)
@@ -40,14 +40,14 @@ func (svc *AuthService) SignIn(ctx context.Context, name string, email *mail.Add
 	return user.ID(), nil
 }
 
-func (svc *AuthService) Login(ctx context.Context, email *mail.Address, password string) (uuid.UUID, error) {
-	user, err := svc.userStorage.GetByEmail(ctx, email)
+func (auth *Auth) Login(ctx context.Context, email *mail.Address, password string) (uuid.UUID, error) {
+	user, err := auth.userStorage.GetByEmail(ctx, email)
 	if err != nil {
 		if errors.Is(err, ErrUserNotFound) {
 			return uuid.UUID{}, ErrInvalidCredentials
 		}
 
-		svc.logger.Error(
+		auth.logger.Error(
 			"AuthService.Login has FAILED",
 			"error", err.Error(),
 		)
@@ -62,8 +62,8 @@ func (svc *AuthService) Login(ctx context.Context, email *mail.Address, password
 	return user.ID(), nil
 }
 
-func NewAuthService(logger *slog.Logger, userstorage UserStorage) AuthService {
-	return AuthService{
+func NewAuth(logger *slog.Logger, userstorage UserStorage) Auth {
+	return Auth{
 		logger:      logger,
 		userStorage: userstorage,
 	}
