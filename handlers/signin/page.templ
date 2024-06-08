@@ -1,18 +1,18 @@
-package login
+package signin
 
 import "github.com/indigowar/anauction/templates/page"
 import "github.com/indigowar/anauction/templates/form"
 import "github.com/indigowar/anauction/templates/navigation"
 
-templ login() {
+templ signIn() {
 	@page.Page(page.Header("Log In - AnAuction")) {
-		@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), []templ.Component{signInButtonSet()})
+		@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), []templ.Component{loginButtonSet()})
 		<div class={ "container", "is-max-desktop", "mt-6" }>
 			@form.Form(form.FormOpts{
-				Label:      "Login",
-				Handler:    "/auth/login",
-				Id:         "#login-form",
-				ButtonText: "Login",
+				Label:      "Sign In",
+				Handler:    "/auth/signin",
+				Id:         "#signin-form",
+				ButtonText: "Sign In",
 			}) {
 				@form.TextField(form.TextFieldOpts{
 					Label:       "Email:",
@@ -35,8 +35,8 @@ templ login() {
 	}
 }
 
-templ signInButtonSet() {
+templ loginButtonSet() {
 	<div class="buttons">
-		<a href="/auth/signin" class="button is-primary">Sign In</a>
+		<a href="/auth/login" class="button is-primary">Login</a>
 	</div>
 }
