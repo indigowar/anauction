@@ -47,6 +47,7 @@ func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc 
 		if err != nil {
 			var duplicationErr *service.DuplicationError
 			if errors.As(err, &duplicationErr) {
+				// TODO: handle the error
 			}
 
 			return formWithFormError(
