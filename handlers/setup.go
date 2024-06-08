@@ -18,7 +18,7 @@ import (
 type SetupSettings struct {
 	Logger         *slog.Logger
 	SessionManager *scs.SessionManager
-	AuthService    *service.Auth
+	Auth           *service.Auth
 }
 
 func Setup(router *echo.Echo, settings SetupSettings) {
@@ -34,9 +34,9 @@ func Setup(router *echo.Echo, settings SetupSettings) {
 		group := router.Group("/auth")
 
 		group.GET("/login", login.Page(settings.SessionManager))
-		group.POST("/login", login.HandleRequest(settings.SessionManager, settings.AuthService))
+		group.POST("/login", login.HandleRequest(settings.SessionManager, settings.Auth))
 
-		group.GET("/signin", signin.Page())
-		group.POST("/signin", signin.HandleRequest())
+		group.GET("/signin", signin.Page(settings.SessionManager))
+		group.POST("/signin", signin.HandleRequest(settings.Auth, settings.SessionManager))
 	}
 }

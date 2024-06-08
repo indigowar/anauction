@@ -15,6 +15,14 @@ templ signIn() {
 				ButtonText: "Sign In",
 			}) {
 				@form.TextField(form.TextFieldOpts{
+					Label:       "Name:",
+					Type:        "text",
+					Placeholder: "Enter your name...",
+					Id:          "name",
+					Name:        "name",
+					Required:    true,
+				})
+				@form.TextField(form.TextFieldOpts{
 					Label:       "Email:",
 					Type:        "email",
 					Placeholder: "Enter your email...",
@@ -39,4 +47,88 @@ templ loginButtonSet() {
 	<div class="buttons">
 		<a href="/auth/login" class="button is-primary">Login</a>
 	</div>
+}
+
+templ formWithInvalidEmail(name, email, password, emailError string) {
+	@form.Form(form.FormOpts{
+		Label:      "Sign In",
+		Handler:    "/auth/signin",
+		Id:         "#signin-form",
+		ButtonText: "Sign In",
+	}) {
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Name:",
+			Type:        "text",
+			Placeholder: "Enter your name...",
+			Id:          "name",
+			Name:        "name",
+			Value:       name,
+			Required:    true,
+		})
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Email:",
+			Type:        "email",
+			Placeholder: "Enter your email...",
+			Id:          "email",
+			Name:        "email",
+			Value:       email,
+			Required:    true,
+		
+			IsDanger: true,
+		})
+		<p class="help is-danger">{ emailError }</p>
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Password:",
+			Type:        "password",
+			Placeholder: "Enter your password",
+			Id:          "password",
+			Name:        "password",
+			Required:    true,
+			Value:       password,
+		})
+	}
+}
+
+templ formWithFormError(name, email, password, err string) {
+	<article class="message is-danger">
+		<div class="message-header">
+			<p>Failed to log in</p>
+			<button class="delete" aria-label="delete"></button>
+		</div>
+		<div class="message-body">{ err }</div>
+	</article>
+	@form.Form(form.FormOpts{
+		Label:      "Sign In",
+		Handler:    "/auth/signin",
+		Id:         "#signin-form",
+		ButtonText: "Sign In",
+	}) {
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Name:",
+			Type:        "text",
+			Placeholder: "Enter your name...",
+			Id:          "name",
+			Name:        "name",
+			Value:       name,
+			Required:    true,
+		})
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Email:",
+			Type:        "email",
+			Placeholder: "Enter your email...",
+			Id:          "email",
+			Name:        "email",
+			Value:       emailValue,
+			Required:    true,
+		})
+		@form.TextField(form.TextFieldOpts{
+			Label:       "Password:",
+			Type:        "password",
+			Placeholder: "Enter your password",
+			Id:          "password",
+			Name:        "password",
+			Value:       passwordValue,
+			Required:    true,
+		})
+	}
 }

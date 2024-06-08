@@ -41,13 +41,13 @@ templ signInButtonSet() {
 	</div>
 }
 
-templ formWithAnError(emailValue string, passwordValue string, error string) {
+templ formWithAnError(emailValue string, passwordValue string, err string) {
 	<article class="message is-danger">
 		<div class="message-header">
 			<p>Failed to log in</p>
 			<button class="delete" aria-label="delete"></button>
 		</div>
-		<div class="message-body">{ error }</div>
+		<div class="message-body">{ err }</div>
 	</article>
 	@form.Form(form.FormOpts{
 		Label:      "Login",
