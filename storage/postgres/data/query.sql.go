@@ -11,14 +11,16 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const deleteUser = `-- name: DeleteUser :exec
+const deleteUser = `-- name: DeleteUser :one
 DELETE FROM users
 WHERE id = $1
+RETURNING id
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) error {
-	_, err := q.db.Exec(ctx, deleteUser, id)
-	return err
+func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, deleteUser, id)
+	err := row.Scan(&id)
+	return id, err
 }
 
 const getByEmail = `-- name: GetByEmail :one
@@ -79,10 +81,11 @@ func (q *Queries) InsertUser(ctx context.Context, arg InsertUserParams) error {
 	return err
 }
 
-const updateUser = `-- name: UpdateUser :exec
+const updateUser = `-- name: UpdateUser :one
 UPDATE users
 SET name = $2, email = $3, password = $4, image = $5
 WHERE id = $1
+RETURNING id, name, email, password, image
 `
 
 type UpdateUserParams struct {
@@ -93,13 +96,21 @@ type UpdateUserParams struct {
 	Image    pgtype.Text
 }
 
-func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
-	_, err := q.db.Exec(ctx, updateUser,
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
+	row := q.db.QueryRow(ctx, updateUser,
 		arg.ID,
 		arg.Name,
 		arg.Email,
 		arg.Password,
 		arg.Image,
 	)
-	return err
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.Password,
+		&i.Image,
+	)
+	return i, err
 }

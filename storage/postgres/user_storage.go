@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"errors"
 	"net/mail"
 	"net/url"
 
@@ -30,7 +31,11 @@ func (u *UserStorage) Add(ctx context.Context, user models.User) error {
 	})
 
 	if err != nil {
-		// TODO: Handle the error properly
+		if e := checkDuplicationError(err); e != nil {
+			return e
+		}
+
+		return err
 	}
 
 	return nil
@@ -38,9 +43,12 @@ func (u *UserStorage) Add(ctx context.Context, user models.User) error {
 
 // Delete implements service.UserStorage.
 func (u *UserStorage) Delete(ctx context.Context, id uuid.UUID) error {
-	err := u.queries.DeleteUser(ctx, pgtype.UUID{Bytes: id, Valid: true})
+	_, err := u.queries.DeleteUser(ctx, pgtype.UUID{Bytes: id, Valid: true})
 	if err != nil {
-		// TODO: Handle the error properly
+		if errors.Is(err, pgx.ErrNoRows) {
+			return service.ErrUserNotFound
+		}
+		return err
 	}
 	return nil
 }
@@ -49,7 +57,10 @@ func (u *UserStorage) Delete(ctx context.Context, id uuid.UUID) error {
 func (u *UserStorage) GetByEmail(ctx context.Context, email *mail.Address) (models.User, error) {
 	object, err := u.queries.GetByEmail(ctx, email.String())
 	if err != nil {
-		// TODO: Handle the error properly
+		if errors.Is(err, pgx.ErrNoRows) {
+			return models.User{}, service.ErrUserNotFound
+		}
+		return models.User{}, err
 	}
 	return u.toModel(object), nil
 }
@@ -58,7 +69,10 @@ func (u *UserStorage) GetByEmail(ctx context.Context, email *mail.Address) (mode
 func (u *UserStorage) GetByID(ctx context.Context, id uuid.UUID) (models.User, error) {
 	object, err := u.queries.GetByID(ctx, pgtype.UUID{Bytes: id, Valid: true})
 	if err != nil {
-		// TODO: Handle the error properly
+		if errors.Is(err, pgx.ErrNoRows) {
+			return models.User{}, service.ErrUserNotFound
+		}
+		return models.User{}, err
 	}
 	return u.toModel(object), nil
 }
@@ -72,7 +86,7 @@ func (u *UserStorage) Update(ctx context.Context, user models.User) error {
 		image = user.Image().String()
 	}
 
-	err := u.queries.UpdateUser(ctx, data.UpdateUserParams{
+	_, err := u.queries.UpdateUser(ctx, data.UpdateUserParams{
 		ID:       pgtype.UUID{Bytes: user.ID(), Valid: true},
 		Name:     user.Name(),
 		Email:    user.Email().String(),
@@ -84,8 +98,16 @@ func (u *UserStorage) Update(ctx context.Context, user models.User) error {
 	})
 
 	if err != nil {
-		// TODO: handle error properly
+		if e := checkDuplicationError(err); e != nil {
+			return e
+		}
+		if errors.Is(err, pgx.ErrNoRows) {
+			return service.ErrUserNotFound
+		}
+
+		return err
 	}
+
 	return nil
 }
 

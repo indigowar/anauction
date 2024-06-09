@@ -2,9 +2,10 @@
 INSERT INTO users(id, name, email, password)
 VALUES ($1, $2, $3, $4);
 
--- name: DeleteUser :exec
+-- name: DeleteUser :one
 DELETE FROM users
-WHERE id = $1;
+WHERE id = $1
+RETURNING id;
 
 -- name: GetByEmail :one
 SELECT * FROM users
@@ -14,7 +15,8 @@ WHERE email = $1;
 SELECT * FROM users
 WHERE id = $1;
 
--- name: UpdateUser :exec
+-- name: UpdateUser :one
 UPDATE users
 SET name = $2, email = $3, password = $4, image = $5
-WHERE id = $1;
+WHERE id = $1
+RETURNING *;

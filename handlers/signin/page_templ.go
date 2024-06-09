@@ -325,7 +325,7 @@ func formWithFormError(name, email, password, err string) templ.Component {
 				Placeholder: "Enter your email...",
 				Id:          "email",
 				Name:        "email",
-				Value:       emailValue,
+				Value:       email,
 				Required:    true,
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
@@ -341,7 +341,7 @@ func formWithFormError(name, email, password, err string) templ.Component {
 				Placeholder: "Enter your password",
 				Id:          "password",
 				Name:        "password",
-				Value:       passwordValue,
+				Value:       password,
 				Required:    true,
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {

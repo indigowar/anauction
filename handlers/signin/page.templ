@@ -118,7 +118,7 @@ templ formWithFormError(name, email, password, err string) {
 			Placeholder: "Enter your email...",
 			Id:          "email",
 			Name:        "email",
-			Value:       emailValue,
+			Value:       email,
 			Required:    true,
 		})
 		@form.TextField(form.TextFieldOpts{
@@ -127,7 +127,7 @@ templ formWithFormError(name, email, password, err string) {
 			Placeholder: "Enter your password",
 			Id:          "password",
 			Name:        "password",
-			Value:       passwordValue,
+			Value:       password,
 			Required:    true,
 		})
 	}
