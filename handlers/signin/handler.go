@@ -2,6 +2,7 @@ package signin
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"net/mail"
@@ -44,13 +45,14 @@ func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc 
 			).Render(c.Request().Context(), c.Response().Writer)
 		}
 
-		log.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
 		id, err := auth.SignIn(c.Request().Context(), name, email, password)
 		if err != nil {
 			var duplicationErr *service.DuplicationError
 			if errors.As(err, &duplicationErr) {
-				// TODO: handle the error
+				return formWithFormError(
+					name, emailStr, password,
+					fmt.Sprintf("The %s with provided %s already exists", duplicationErr.Object, duplicationErr.Field),
+				).Render(c.Request().Context(), c.Response().Writer)
 			}
 
 			return formWithFormError(
@@ -58,11 +60,9 @@ func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc 
 				"Internal server error occurred, try again later",
 			).Render(c.Request().Context(), c.Response().Writer)
 		}
-		log.Println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBb")
 
 		sm.Put(c.Request().Context(), "user-id", id.String())
 
-		log.Println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
 		c.Response().Header().Add("HX-Redirect", "/")
 		return c.NoContent(http.StatusOK)
 	}
