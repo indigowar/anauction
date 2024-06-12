@@ -3,12 +3,13 @@ package postgres
 import (
 	"errors"
 
-	"github.com/indigowar/anauction/domain/service"
 	"github.com/jackc/pgx/v5/pgconn"
+
+	"github.com/indigowar/anauction/domain/service"
 )
 
 func checkDuplicationError(err error) *service.DuplicationError {
-	var pgError pgconn.PgError
+	var pgError *pgconn.PgError
 	if errors.As(err, &pgError) {
 		if pgError.Code == "32505" {
 			return &service.DuplicationError{

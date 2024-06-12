@@ -2,6 +2,7 @@ package signin
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"net/mail"
 
@@ -13,7 +14,7 @@ import (
 
 func Page(sm *scs.SessionManager) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if id := sm.GetBytes(c.Request().Context(), "user-id"); id != nil {
+		if id := sm.GetString(c.Request().Context(), "user-id"); id != "" {
 			// The user already logged in, so just a redirect
 			c.Response().Header().Add("HX-Redirect", "/")
 			return c.NoContent(http.StatusBadRequest)
@@ -25,7 +26,7 @@ func Page(sm *scs.SessionManager) echo.HandlerFunc {
 
 func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if id := sm.GetBytes(c.Request().Context(), "user-id"); id != nil {
+		if id := sm.GetString(c.Request().Context(), "user-id"); id != "" {
 			// The user already logged in, so just a redirect
 			c.Response().Header().Add("HX-Redirect", "/")
 			return c.NoContent(http.StatusBadRequest)
@@ -43,6 +44,8 @@ func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc 
 			).Render(c.Request().Context(), c.Response().Writer)
 		}
 
+		log.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
 		id, err := auth.SignIn(c.Request().Context(), name, email, password)
 		if err != nil {
 			var duplicationErr *service.DuplicationError
@@ -55,9 +58,11 @@ func HandleRequest(auth *service.Auth, sm *scs.SessionManager) echo.HandlerFunc 
 				"Internal server error occurred, try again later",
 			).Render(c.Request().Context(), c.Response().Writer)
 		}
+		log.Println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBb")
 
-		sm.Put(c.Request().Context(), "user-id", id)
+		sm.Put(c.Request().Context(), "user-id", id.String())
 
+		log.Println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
 		c.Response().Header().Add("HX-Redirect", "/")
 		return c.NoContent(http.StatusOK)
 	}

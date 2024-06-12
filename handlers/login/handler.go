@@ -13,7 +13,7 @@ import (
 
 func Page(sm *scs.SessionManager) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if id := sm.GetBytes(c.Request().Context(), "user-id"); id != nil {
+		if id := sm.GetString(c.Request().Context(), "user-id"); id != "" {
 			// The user already logged in, so just a redirect
 			c.Response().Header().Add("HX-Redirect", "/")
 			return c.NoContent(http.StatusBadRequest)
@@ -25,7 +25,7 @@ func Page(sm *scs.SessionManager) echo.HandlerFunc {
 
 func HandleRequest(sm *scs.SessionManager, auth *service.Auth) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		if id := sm.GetBytes(c.Request().Context(), "user-id"); id != nil {
+		if id := sm.GetString(c.Request().Context(), "user-id"); id != "" {
 			// The user already logged in, so just a redirect
 			c.Response().Header().Add("HX-Redirect", "/")
 			return c.NoContent(http.StatusBadRequest)
@@ -58,7 +58,7 @@ func HandleRequest(sm *scs.SessionManager, auth *service.Auth) echo.HandlerFunc 
 			)
 		}
 
-		sm.Put(c.Request().Context(), "user-id", id)
+		sm.Put(c.Request().Context(), "user-id", id.String())
 
 		// Through HTMX make a redirect to home
 		c.Response().Header().Add("HX-Redirect", "/")
