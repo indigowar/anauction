@@ -8,6 +8,17 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Item struct {
+	ID          pgtype.UUID
+	Owner       pgtype.UUID
+	Name        string
+	Image       string
+	Description string
+	StartPrice  float64
+	CreatedAt   pgtype.Timestamp
+	ClosedAt    pgtype.Timestamp
+}
+
 type User struct {
 	ID       pgtype.UUID
 	Name     string

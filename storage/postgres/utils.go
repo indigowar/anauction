@@ -20,3 +20,13 @@ func checkDuplicationError(err error) *service.DuplicationError {
 	}
 	return nil
 }
+
+func checkForeignKeyViolationError(err error) (bool, string) {
+	var pgErr *pgconn.PgError
+	if errors.As(err, &pgErr) {
+		if pgErr.Code == "23503" {
+			return true, pgErr.ColumnName
+		}
+	}
+	return false, ""
+}

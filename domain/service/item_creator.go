@@ -40,7 +40,6 @@ func (im *ItemCreator) CreateItem(
 	}
 
 	if err := im.storage.Add(ctx, item); err != nil {
-		// todo: handle the storage error
 		return models.Item{}, ErrInternal
 	}
 
