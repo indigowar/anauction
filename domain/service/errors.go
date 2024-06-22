@@ -7,6 +7,7 @@ import (
 
 var (
 	ErrInvalidCredentials = errors.New("provided credentials are invalid")
+	ErrInvalidData        = errors.New("provided data is invalid")
 	ErrInternal           = errors.New("internal server error")
 )
 
