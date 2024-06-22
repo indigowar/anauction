@@ -33,7 +33,7 @@ func signIn() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), []templ.Component{loginButtonSet()}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loginButtonSet()).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

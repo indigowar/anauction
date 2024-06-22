@@ -5,15 +5,33 @@ import "github.com/indigowar/anauction/templates/navigation"
 import "github.com/indigowar/anauction/templates/page"
 
 // TODO: Rewrite this to use real data
-templ index() {
+templ index(isLoggedIn bool) {
 	@page.Page(page.Header("AnAuction")) {
 		<div>
-			@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), make([]templ.Component, 0))
+			if isLoggedIn {
+				@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loggedInButtons())
+			} else {
+				@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), authGuestButtons())
+			}
 			@indexLandingHeader()
 			@indexItemList()
 			@page.Footer()
 		</div>
 	}
+}
+
+templ authGuestButtons() {
+	<div class="buttons">
+		<a class="button is-primary" href="/auth/signin">Sign In</a>
+		<a class="button is-link" href="/auth/login">Log In</a>
+	</div>
+}
+
+templ loggedInButtons() {
+	<div class="buttons">
+		<a class="button is-primary" href="/profile">Profile</a>
+		<a class="button is-warning" href="/item/add">+</a>
+	</div>
 }
 
 templ indexLandingHeader() {

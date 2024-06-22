@@ -28,7 +28,7 @@ func Setup(router *echo.Echo, settings SetupSettings) {
 
 	router.Static("/static", "/assets/")
 
-	router.GET("/", index.Page())
+	router.GET("/", index.Page(settings.SessionManager))
 
 	{
 		group := router.Group("/auth")

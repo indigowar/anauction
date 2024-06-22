@@ -6,7 +6,7 @@ import "github.com/indigowar/anauction/templates/navigation"
 
 templ signIn() {
 	@page.Page(page.Header("Log In - AnAuction")) {
-		@navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), []templ.Component{loginButtonSet()})
+		@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loginButtonSet())
 		<div class={ "container", "is-max-desktop", "mt-6" }>
 			@form.Form(form.FormOpts{
 				Label:      "Sign In",

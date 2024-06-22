@@ -15,7 +15,7 @@ import "github.com/indigowar/anauction/templates/navigation"
 import "github.com/indigowar/anauction/templates/page"
 
 // TODO: Rewrite this to use real data
-func index() templ.Component {
+func index(isLoggedIn bool) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -38,9 +38,16 @@ func index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", make([]templ.Component, 0), make([]templ.Component, 0)).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
+			if isLoggedIn {
+				templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loggedInButtons()).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				templ_7745c5c3_Err = navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), authGuestButtons()).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
 			templ_7745c5c3_Err = indexLandingHeader().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
@@ -74,7 +81,7 @@ func index() templ.Component {
 	})
 }
 
-func indexLandingHeader() templ.Component {
+func authGuestButtons() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -85,6 +92,54 @@ func indexLandingHeader() templ.Component {
 		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
 		if templ_7745c5c3_Var3 == nil {
 			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"buttons\"><a class=\"button is-primary\" href=\"/auth/signin\">Sign In</a> <a class=\"button is-link\" href=\"/auth/login\">Log In</a></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func loggedInButtons() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"buttons\"><a class=\"button is-primary\" href=\"/profile\">Profile</a> <a class=\"button is-warning\" href=\"/item/add\">+</a></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func indexLandingHeader() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block m-5 index-landing-header\"><div class=\"has-text-centered\"><h1 class=\"title mt-2\">An Auction</h1><h2 class=\"subtitle m-1\">Your internet auction service</h2></div><div class=\"level py-5\"><div class=\"level-item has-text-centered\"><div><p class=\"heading\">Active Users</p><p class=\"title\">31,456</p></div></div><div class=\"level-item has-text-centered\"><div><p class=\"heading\">Items on the Auction RIGHT NOW</p><p class=\"title\">812</p></div></div><div class=\"level-item has-text-centered\"><div><p class=\"heading\">Closed auctions</p><p class=\"title\">22.4k</p></div></div><div class=\"level-item has-text-centered\"><div><p class=\"heading\">Average Price</p><p class=\"title\">354$</p></div></div></div><div class=\"has-text-centered mx-10\"><h1 class=\"title\"><b>Join today</b></h1><div class=\"columns\"><div class=\"column\"></div><div class=\"buttons is-one-fifth\"><a class=\"button is-primary\" href=\"/auth/signin\">Sign In</a> <a class=\"button is-primary\" href=\"/auth/login\">Log In</a></div><div class=\"column\"></div></div></div></div><style>\n\t\t.index-landing-header {\n\t\t\tbackground-color:#E8F5E9;\n\t\t}\n\t</style>")
@@ -106,9 +161,9 @@ func indexItemList() templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"columns\"><div class=\"column\"></div><div class=\"column is-four-fifths\"><div class=\"block mx-5 fixed-grid has-7-cols-fullhd\"><div class=\"grid\">")
@@ -148,21 +203,21 @@ func item() templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"card\"><div class=\"card-image\"><figure class=\"image\"><img src=\"https://bulma.io/assets/images/placeholders/1280x960.png\" alt=\"Placeholder image\"></figure></div><div class=\"card-content\"></div><div class=\"content\">This is a very cool piece of hardware, that I no longer need.<br><time>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().UTC().Format("03:04 - 02-01-06"))
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().UTC().Format("03:04 - 02-01-06"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `handlers/index/page.templ`, Line: 102, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `handlers/index/page.templ`, Line: 120, Col: 54}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

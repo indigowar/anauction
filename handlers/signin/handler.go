@@ -3,7 +3,6 @@ package signin
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"net/mail"
 
