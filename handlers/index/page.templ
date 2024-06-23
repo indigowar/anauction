@@ -9,7 +9,7 @@ templ index(isLoggedIn bool) {
 	@page.Page(page.Header("AnAuction")) {
 		<div>
 			if isLoggedIn {
-				@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loggedInButtons())
+				@navigation.Bar("/static/img/favicon.svg", "/", loggedInButtons(), logOutButton())
 			} else {
 				@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), authGuestButtons())
 			}
@@ -31,6 +31,12 @@ templ loggedInButtons() {
 	<div class="buttons">
 		<a class="button is-primary" href="/profile">Profile</a>
 		<a class="button is-warning" href="/item/add">+</a>
+	</div>
+}
+
+templ logOutButton() {
+	<div class="buttons">
+		<a class="button is-danger" href="/auth/logout">Log out</a>
 	</div>
 }
 
