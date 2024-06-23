@@ -12,6 +12,7 @@ import (
 	"github.com/indigowar/anauction/domain/service"
 	"github.com/indigowar/anauction/handlers/index"
 	"github.com/indigowar/anauction/handlers/login"
+	"github.com/indigowar/anauction/handlers/logout"
 	"github.com/indigowar/anauction/handlers/signin"
 )
 
@@ -38,5 +39,7 @@ func Setup(router *echo.Echo, settings SetupSettings) {
 
 		group.GET("/signin", signin.Page(settings.SessionManager))
 		group.POST("/signin", signin.HandleRequest(settings.Auth, settings.SessionManager))
+
+		group.POST("/logout", logout.HandleRequest(settings.SessionManager))
 	}
 }
