@@ -18,6 +18,7 @@ import (
 
 	"github.com/indigowar/anauction/domain/service"
 	"github.com/indigowar/anauction/handlers"
+	miniostorage "github.com/indigowar/anauction/storage/minio"
 	"github.com/indigowar/anauction/storage/postgres"
 )
 
@@ -35,15 +36,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, err = connectToFileStorage()
+	fsClient, err := connectToFileStorage()
 	if err != nil {
 		logger.Error("Failed to connect to file storage", "Err", err)
 		os.Exit(1)
 	}
 
+	imageStorage, err := miniostorage.NewImageStorage(fsClient)
+	if err != nil {
+		logger.Error("Failed to init image storage", "Err", err)
+		os.Exit(1)
+	}
+
 	userStorage := postgres.NewUserStorage(dbConn)
+	itemStorage := postgres.NewItemStorage(dbConn)
 
 	authService := service.NewAuth(logger, userStorage)
+	itemCreatorService := service.NewItemCreator(logger, itemStorage, imageStorage)
 
 	sm := scs.New()
 	sm.Lifetime = 24 * time.Hour
@@ -53,6 +62,8 @@ func main() {
 		Logger:         logger,
 		SessionManager: sm,
 		Auth:           &authService,
+		ItemCreator:    &itemCreatorService,
+		ImageStorage:   imageStorage,
 	})
 
 	run(router, logger)

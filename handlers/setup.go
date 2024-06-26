@@ -20,7 +20,11 @@ import (
 type SetupSettings struct {
 	Logger         *slog.Logger
 	SessionManager *scs.SessionManager
-	Auth           *service.Auth
+
+	Auth        *service.Auth
+	ItemCreator *service.ItemCreator
+
+	ImageStorage service.ImageStorage
 }
 
 func Setup(router *echo.Echo, settings SetupSettings) {
