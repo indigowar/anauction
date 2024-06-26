@@ -1,0 +1,83 @@
+package itemcreation
+
+import "github.com/indigowar/anauction/templates/page"
+import "github.com/indigowar/anauction/templates/navigation"
+
+templ formPage() {
+	@page.Page(page.Header("Log In - AnAuction")) {
+		@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), backButtons())
+		<div class="container is-max-desktop mt-6">
+			<form
+				id="uploadForm"
+				hx-post="/item/new"
+				hx-encoding="multipart/form-data"
+			>
+				<div class="field">
+					<label class="label">Name:</label>
+					<div class="control">
+						<input
+							class="input"
+							name="name"
+							id="name"
+							placeholder="Enter Item's name"
+							required
+						/>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Description:</label>
+					<div class="control">
+						<input
+							class="input"
+							name="description"
+							id="description"
+							placeholder="Enter Item's description"
+							required
+						/>
+					</div>
+				</div>
+				<div class="field">
+					<label class="label">Starting Price for biddings</label>
+					<div class="control has-icons-right money-input">
+						<input
+							class="input"
+							name="starting_price"
+							id="starting_price"
+							placeholder="0"
+							required
+						/>
+						<span class="icon is-small is-right currency-symbol">$</span>
+					</div>
+					<script>
+						document.getElementById("starting_price").addEventListener("change", (e) => {
+							let value = e.target.value;
+							value = value.replace(/[^0-9.]/g, '');
+							const parts = value.split('.');
+							if (parts.length > 2) {
+								value = parts[0] + '.' + parts.slice(1).join('');
+							}
+							e.target.value = value;
+						});
+					</script>
+				</div>
+				<div class="field">
+					<label>Image:</label>
+					<input type="file" id="image" name="image" required/>
+				</div>
+				<div class="field">
+					<label class="label">This auction will be closed:</label>
+					<input class="control" id="closed_at" required/>
+				</div>
+				<div class="control has-text-centered">
+					<button class="button is-primary" type="submit">Create Item</button>
+				</div>
+			</form>
+		</div>
+	}
+}
+
+templ backButtons() {
+	<div class="">
+		<a class="button is-primary" href="/">Back</a>
+	</div>
+}

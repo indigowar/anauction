@@ -11,6 +11,7 @@ import (
 
 	"github.com/indigowar/anauction/domain/service"
 	"github.com/indigowar/anauction/handlers/index"
+	"github.com/indigowar/anauction/handlers/itemcreation"
 	"github.com/indigowar/anauction/handlers/login"
 	"github.com/indigowar/anauction/handlers/logout"
 	"github.com/indigowar/anauction/handlers/signin"
@@ -41,5 +42,12 @@ func Setup(router *echo.Echo, settings SetupSettings) {
 		group.POST("/signin", signin.HandleRequest(settings.Auth, settings.SessionManager))
 
 		group.POST("/logout", logout.HandleRequest(settings.SessionManager))
+	}
+
+	{
+		group := router.Group("/item")
+
+		group.GET("/new", itemcreation.Form())
+		group.POST("/new", itemcreation.HandleRequest())
 	}
 }
