@@ -13,6 +13,8 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 
 	"github.com/indigowar/anauction/domain/service"
 	"github.com/indigowar/anauction/handlers"
@@ -30,6 +32,12 @@ func main() {
 	dbConn, err := connectToDB()
 	if err != nil {
 		logger.Error("Failed to connect to database", "Err", err)
+		os.Exit(1)
+	}
+
+	_, err = connectToFileStorage()
+	if err != nil {
+		logger.Error("Failed to connect to file storage", "Err", err)
 		os.Exit(1)
 	}
 
@@ -61,6 +69,18 @@ func connectToDB() (*pgx.Conn, error) {
 	)
 
 	return pgx.Connect(context.Background(), url)
+}
+
+func connectToFileStorage() (*minio.Client, error) {
+	endpoint := os.Getenv("MINIO_ENDPOINT")
+	accessKeyID := os.Getenv("MINIO_ACCESS_KEY_ID")
+	secretKey := os.Getenv("MINIO_SECRET_KEY")
+	useSSL := os.Getenv("MINIO_USE_SSL") == "true"
+
+	return minio.New(endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(accessKeyID, secretKey, ""),
+		Secure: useSSL,
+	})
 }
 
 func run(router *echo.Echo, logger *slog.Logger) {
