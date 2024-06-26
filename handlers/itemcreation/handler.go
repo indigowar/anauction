@@ -3,7 +3,6 @@ package itemcreation
 import (
 	"net/http"
 
-	"github.com/alexedwards/scs/v2"
 	"github.com/labstack/echo/v4"
 
 	"github.com/indigowar/anauction/templates"
