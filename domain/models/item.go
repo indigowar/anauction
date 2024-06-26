@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"net/url"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,7 +12,7 @@ type Item struct {
 	owner uuid.UUID
 
 	name        string
-	image       *url.URL
+	image       string
 	description string
 
 	startingPrice float64
@@ -25,7 +24,7 @@ type Item struct {
 func (i *Item) ID() uuid.UUID          { return i.id }
 func (i *Item) Owner() uuid.UUID       { return i.owner }
 func (i *Item) Name() string           { return i.name }
-func (i *Item) Image() *url.URL        { return i.image }
+func (i *Item) Image() string          { return i.image }
 func (i *Item) Description() string    { return i.description }
 func (i *Item) StartingPrice() float64 { return i.startingPrice }
 func (i *Item) CreatedAt() time.Time   { return i.createdAt }
@@ -43,9 +42,9 @@ func (i *Item) SetName(value string) error {
 	return nil
 }
 
-func (i *Item) SetImage(value *url.URL) error {
-	if value == nil {
-		return errors.New("image url is not specified")
+func (i *Item) SetImage(value string) error {
+	if len(value) <= 6 {
+		return errors.New("image key should be more then 6 characters long")
 	}
 	i.image = value
 	return nil
@@ -67,7 +66,7 @@ func (i *Item) SetClosedAt(value time.Time) error {
 func NewItem(
 	owner uuid.UUID,
 	name string,
-	image *url.URL,
+	image string,
 	description string,
 	startPrice float64,
 	closedAt time.Time,
@@ -109,7 +108,7 @@ func NewRawItem(
 	id uuid.UUID,
 	owner uuid.UUID,
 	name string,
-	image *url.URL,
+	image string,
 	description string,
 	startingPrice float64,
 	createdAt time.Time,

@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
 	"log/slog"
-	"net/url"
+	"math/big"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,23 +14,29 @@ import (
 )
 
 type ItemCreator struct {
-	logger  *slog.Logger
-	storage ItemStorage
+	logger       *slog.Logger
+	storage      ItemStorage
+	imageStorage ImageStorage
 }
 
 func (im *ItemCreator) CreateItem(
 	ctx context.Context,
 	owner uuid.UUID,
 	name string,
-	image *url.URL,
+	image []byte,
 	description string,
 	startingPrice float64,
 	endTime time.Time,
 ) (models.Item, error) {
+	imageKey := im.generateImageKey()
+	if err := im.imageStorage.Add(ctx, imageKey, image); err != nil {
+		return models.Item{}, ErrInternal
+	}
+
 	item, err := models.NewItem(
 		owner,
 		name,
-		image,
+		imageKey,
 		description,
 		startingPrice,
 		endTime,
@@ -46,9 +53,28 @@ func (im *ItemCreator) CreateItem(
 	return item, nil
 }
 
-func NewItemCreator(logger *slog.Logger, storage ItemStorage) ItemCreator {
+func (im *ItemCreator) generateImageKey() string {
+	const length = 32
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	result := make([]byte, length)
+	for i := range result {
+		randomInt, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		if err != nil {
+			return ""
+		}
+		result[i] = charset[randomInt.Int64()]
+	}
+	return string(result)
+}
+
+func NewItemCreator(
+	logger *slog.Logger,
+	storage ItemStorage,
+	imageStorage ImageStorage,
+) ItemCreator {
 	return ItemCreator{
-		logger:  logger,
-		storage: storage,
+		logger:       logger,
+		storage:      storage,
+		imageStorage: imageStorage,
 	}
 }

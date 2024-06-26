@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net/url"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -93,7 +92,7 @@ func (i *ItemStorage) Update(ctx context.Context, item models.Item) error {
 		ID:          pgtype.UUID{Bytes: item.ID(), Valid: true},
 		Owner:       pgtype.UUID{Bytes: item.Owner(), Valid: true},
 		Name:        item.Name(),
-		Image:       item.Image().String(),
+		Image:       item.Image(),
 		Description: item.Description(),
 		StartPrice:  item.StartingPrice(),
 		CreatedAt: pgtype.Timestamp{
@@ -138,7 +137,7 @@ func itemToInsertItemArg(i models.Item) data.InsertItemParams {
 		ID:          pgtype.UUID{Bytes: i.ID(), Valid: true},
 		Owner:       pgtype.UUID{Bytes: i.Owner(), Valid: true},
 		Name:        i.Name(),
-		Image:       i.Image().String(),
+		Image:       i.Image(),
 		Description: i.Description(),
 		StartPrice:  i.StartingPrice(),
 		CreatedAt: pgtype.Timestamp{
@@ -155,13 +154,11 @@ func itemToInsertItemArg(i models.Item) data.InsertItemParams {
 }
 
 func dataItemToModel(data data.Item) models.Item {
-	image, _ := url.Parse(data.Image)
-
 	return models.NewRawItem(
 		data.ID.Bytes,
 		data.Owner.Bytes,
 		data.Name,
-		image,
+		data.Image,
 		data.Description,
 		data.StartPrice,
 		data.CreatedAt.Time,
