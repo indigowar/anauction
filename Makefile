@@ -5,10 +5,10 @@ gen:
 test: gen
 	@go test ./...
 
-db-start:
+infra-start:
 	docker-compose -f build/compose.yaml up --detach --remove-orphans
 
-db-stop:
+infra-stop:
 	docker-compose -f build/compose.yaml down
 
 migrate:
