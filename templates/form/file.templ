@@ -41,7 +41,6 @@ templ File(opts FileOpts) {
 			const fileName = container.querySelector(".file-name");
 
 			fileInput.addEventListener("change", (e) => {
-				// TODO: implement
 				if (e.target.files.length === 1) {
 					fileName.textContent = e.target.files[0].name;
 				}
