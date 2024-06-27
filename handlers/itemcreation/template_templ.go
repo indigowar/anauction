@@ -41,7 +41,7 @@ func formPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = newForm("/").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = createForm("/").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -65,7 +65,7 @@ func formPage() templ.Component {
 	})
 }
 
-func newForm(handle string) templ.Component {
+func createForm(handle string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -98,7 +98,7 @@ func newForm(handle string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = form.TextField(form.TextFieldOpts{
+			templ_7745c5c3_Err = form.TextArea(form.TextAreaOpts{
 				Label:       "Description",
 				Placeholder: "Enter Item's description",
 				Id:          "description",
@@ -174,30 +174,6 @@ func backButtons() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"\"><a class=\"button is-primary\" href=\"/\">Back</a></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if !templ_7745c5c3_IsBuffer {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
-		}
-		return templ_7745c5c3_Err
-	})
-}
-
-func old() templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
-		if !templ_7745c5c3_IsBuffer {
-			templ_7745c5c3_Buffer = templ.GetBuffer()
-			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"uploadForm\" hx-post=\"/item/new\" hx-encoding=\"multipart/form-data\"><div class=\"field\"><label class=\"label\">Name:</label><div class=\"control\"><input class=\"input\" name=\"name\" id=\"name\" placeholder=\"Enter Item&#39;s name\" required></div></div><div class=\"field\"><label class=\"label\">Description:</label><div class=\"control\"><input class=\"input\" name=\"description\" id=\"description\" placeholder=\"Enter Item&#39;s description\" required></div></div><div class=\"field\"><label class=\"label\">Starting Price for biddings</label><div class=\"control has-icons-right money-input\"><input class=\"input\" name=\"starting_price\" id=\"starting_price\" placeholder=\"0\" required> <span class=\"icon is-small is-right currency-symbol\">$</span></div><script>\n\t\t\t\t\t\tdocument.getElementById(\"starting_price\").addEventListener(\"change\", (e) => {\n\t\t\t\t\t\t\tlet value = e.target.value;\n\t\t\t\t\t\t\tvalue = value.replace(/[^0-9.]/g, '');\n\t\t\t\t\t\t\tconst parts = value.split('.');\n\t\t\t\t\t\t\tif (parts.length > 2) {\n\t\t\t\t\t\t\t\tvalue = parts[0] + '.' + parts.slice(1).join('');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\te.target.value = value;\n\t\t\t\t\t\t});\n\t\t\t\t\t</script></div><div class=\"field\"><label>Image:</label> <input type=\"file\" id=\"image\" name=\"image\" required></div><div class=\"field\"><label class=\"label\">This auction will be closed:</label> <input class=\"control\" id=\"closed_at\" required></div><div class=\"control has-text-centered\"><button class=\"button is-primary\" type=\"submit\">Create Item</button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

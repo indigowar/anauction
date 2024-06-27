@@ -78,6 +78,9 @@ templ MoneyField(opts MoneyFieldOpts) {
 				if opts.Required {
 					required
 				}
+				if opts.ReadOnly {
+					readonly
+				}
 				onchange="moneyFieldMaskOnChange(this)"
 			/>
 			if opts.Currency != "" {
@@ -92,4 +95,40 @@ templ MoneyField(opts MoneyFieldOpts) {
 			}
 		</script>
 	}
+}
+
+type TextAreaOpts struct {
+	Label       string
+	Id          string
+	Name        string
+	Placeholder string
+	Value       string
+	Required    bool
+	ReadOnly    bool
+	IsDanger    bool
+}
+
+templ TextArea(opts TextAreaOpts) {
+	<div class="field">
+		if opts.Label != "" {
+			<label class="label">{ opts.Label }</label>
+		}
+		<textarea
+			if opts.IsDanger {
+				class="textarea is-danger"
+			} else {
+				class="textarea"
+			}
+			id={ opts.Id }
+			name={ opts.Name }
+			placeholder={ opts.Placeholder }
+			value={ opts.Value }
+			if opts.Required {
+				required
+			}
+			if opts.ReadOnly {
+				readonly
+			}
+		></textarea>
+	</div>
 }

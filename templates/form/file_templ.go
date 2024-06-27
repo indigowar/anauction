@@ -104,7 +104,7 @@ func File(opts FileOpts) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> <span class=\"file-cta\"><span class=\"file-icon\"><i class=\"fas fa-upload\"></i></span> <span class=\"file-label\">Choose a file...</span></span> <span class=\"file-name\"></span></label></div><script type=\"text/javascript\">\n\t\t\tconst parent = document.currentScript.parentElement;\n\t\t\tconst container = parent.querySelector(\".file\");\n\t\t\tconst fileInput = container.querySelector(\"label > input[type=\\\"file\\\"\");\n\t\t\tconst fileName = container.querySelector(\".file-name\");\n\n\t\t\tfileInput.addEventListener(\"change\", (e) => {\n\t\t\t\t// TODO: implement\n\t\t\t\tif (e.target.files.length === 1) {\n\t\t\t\t\tfileName.textContent = e.target.files[0].name;\n\t\t\t\t}\n\t\t\t});\n\t\t</script></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> <span class=\"file-cta\"><span class=\"file-icon\"><i class=\"fas fa-upload\"></i></span> <span class=\"file-label\">Choose a file...</span></span> <span class=\"file-name\"></span></label></div><script type=\"text/javascript\">\n\t\t\tconst parent = document.currentScript.parentElement;\n\t\t\tconst container = parent.querySelector(\".file\");\n\t\t\tconst fileInput = container.querySelector(\"label > input[type=\\\"file\\\"\");\n\t\t\tconst fileName = container.querySelector(\".file-name\");\n\n\t\t\tfileInput.addEventListener(\"change\", (e) => {\n\t\t\t\tif (e.target.files.length === 1) {\n\t\t\t\t\tfileName.textContent = e.target.files[0].name;\n\t\t\t\t}\n\t\t\t});\n\t\t</script></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
