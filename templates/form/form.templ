@@ -1,5 +1,7 @@
 package form
 
+import "fmt"
+
 type FormOpts struct {
 	Label      string
 	Handler    string
@@ -7,15 +9,16 @@ type FormOpts struct {
 	ButtonText string
 	Target     string
 	Swap       string
+	Encoding   string
 }
 
 templ Form(opts FormOpts) {
 	<form
-		id={ opts.Id[1:] }
+		id={ opts.Id }
 		class={ "box" }
 		hx-post={ opts.Handler }
 		if opts.Target == "" {
-			hx-target={ opts.Id }
+			hx-target={ fmt.Sprintf("#%s", opts.Id) }
 		} else {
 			hx-target={ opts.Target }
 		}
@@ -24,7 +27,9 @@ templ Form(opts FormOpts) {
 		} else {
 			hx-swap={ opts.Swap }
 		}
-		hx-swap={ opts.Swap }
+		if opts.Encoding != "" {
+			hx-encoding={ opts.Encoding }
+		}
 	>
 		<h1 class={ "title", "has-text-centered" }>{ opts.Label }</h1>
 		{ children... }

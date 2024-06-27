@@ -118,7 +118,7 @@ func signIn() templ.Component {
 			templ_7745c5c3_Err = form.Form(form.FormOpts{
 				Label:      "Sign In",
 				Handler:    "/auth/signin",
-				Id:         "#signin-form",
+				Id:         "signin-form",
 				ButtonText: "Sign In",
 			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {

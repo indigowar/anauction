@@ -1,7 +1,8 @@
 package form
 
+var moneyFieldScript = templ.NewOnceHandle()
+
 type TextFieldOpts struct {
-	NoLabel     bool
 	Label       string
 	Type        string
 	Placeholder string
@@ -15,7 +16,7 @@ type TextFieldOpts struct {
 
 templ TextField(opts TextFieldOpts) {
 	<div class={ "field" }>
-		if !opts.NoLabel {
+		if opts.Label != "" {
 			<label class={ "label" }>{ opts.Label }</label>
 		}
 		<div class={ "control" }>
@@ -41,4 +42,54 @@ templ TextField(opts TextFieldOpts) {
 			/>
 		</div>
 	</div>
+}
+
+type MoneyFieldOpts struct {
+	Label       string
+	Id          string
+	Name        string
+	Placeholder string
+	Value       string
+	Currency    string
+
+	Required bool
+	ReadOnly bool
+	IsDanger bool
+}
+
+templ MoneyField(opts MoneyFieldOpts) {
+	<div class="control">
+		if opts.Label != "" {
+			<label class="label">{ opts.Label }</label>
+		}
+		<div class="control has-icons-right money-input">
+			<input
+				if opts.IsDanger {
+					class="input is-danger"
+				} else {
+					class="input"
+				}
+				name={ opts.Name }
+				id={ opts.Id }
+				placeholder={ opts.Placeholder }
+				if opts.Value != "" {
+					value={ opts.Value }
+				}
+				if opts.Required {
+					required
+				}
+				onchange="moneyFieldMaskOnChange(this)"
+			/>
+			if opts.Currency != "" {
+				<span class="icon is-small is-right currency-symbol">{ opts.Currency }</span>
+			}
+		</div>
+	</div>
+	@moneyFieldScript.Once() {
+		<script type="text/javascript">
+			function moneyFieldMaskOnChange(field) {
+				// TODO: implement this mask on change
+			}
+		</script>
+	}
 }
