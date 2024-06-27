@@ -11,6 +11,7 @@ import "io"
 import "bytes"
 
 import "github.com/indigowar/anauction/templates/page"
+import "github.com/indigowar/anauction/templates/form"
 import "github.com/indigowar/anauction/templates/navigation"
 
 func formPage() templ.Component {
@@ -36,7 +37,15 @@ func formPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"container is-max-desktop mt-6\"><form id=\"uploadForm\" hx-post=\"/item/new\" hx-encoding=\"multipart/form-data\"><div class=\"field\"><label class=\"label\">Name:</label><div class=\"control\"><input class=\"input\" name=\"name\" id=\"name\" placeholder=\"Enter Item&#39;s name\" required></div></div><div class=\"field\"><label class=\"label\">Description:</label><div class=\"control\"><input class=\"input\" name=\"description\" id=\"description\" placeholder=\"Enter Item&#39;s description\" required></div></div><div class=\"field\"><label class=\"label\">Starting Price for biddings</label><div class=\"control has-icons-right money-input\"><input class=\"input\" name=\"starting_price\" id=\"starting_price\" placeholder=\"0\" required> <span class=\"icon is-small is-right currency-symbol\">$</span></div><script>\n\t\t\t\t\t\tdocument.getElementById(\"starting_price\").addEventListener(\"change\", (e) => {\n\t\t\t\t\t\t\tlet value = e.target.value;\n\t\t\t\t\t\t\tvalue = value.replace(/[^0-9.]/g, '');\n\t\t\t\t\t\t\tconst parts = value.split('.');\n\t\t\t\t\t\t\tif (parts.length > 2) {\n\t\t\t\t\t\t\t\tvalue = parts[0] + '.' + parts.slice(1).join('');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\te.target.value = value;\n\t\t\t\t\t\t});\n\t\t\t\t\t</script></div><div class=\"field\"><label>Image:</label> <input type=\"file\" id=\"image\" name=\"image\" required></div><div class=\"field\"><label class=\"label\">This auction will be closed:</label> <input class=\"control\" id=\"closed_at\" required></div><div class=\"control has-text-centered\"><button class=\"button is-primary\" type=\"submit\">Create Item</button></div></form></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"container is-max-desktop mt-6\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = newForm("/").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -56,7 +65,7 @@ func formPage() templ.Component {
 	})
 }
 
-func backButtons() templ.Component {
+func newForm(handle string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -69,7 +78,126 @@ func backButtons() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Var4 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+			if !templ_7745c5c3_IsBuffer {
+				templ_7745c5c3_Buffer = templ.GetBuffer()
+				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+			}
+			templ_7745c5c3_Err = form.TextField(form.TextFieldOpts{
+				Label:       "Name",
+				Placeholder: "Enter Item's name",
+				Id:          "name",
+				Name:        "name",
+				Required:    true,
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = form.TextField(form.TextFieldOpts{
+				Label:       "Description",
+				Placeholder: "Enter Item's description",
+				Id:          "description",
+				Name:        "description",
+				Required:    true,
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = form.MoneyField(form.MoneyFieldOpts{
+				Label:       "Starting price for biddings",
+				Id:          "starting_price",
+				Name:        "starting_price",
+				Placeholder: "0",
+				Value:       "",
+				Currency:    "$",
+				Required:    true,
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = form.File(form.FileOpts{
+				Id:       "image",
+				Name:     "image",
+				Label:    "Item's Image",
+				Type:     "file",
+				Required: true,
+			}).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if !templ_7745c5c3_IsBuffer {
+				_, templ_7745c5c3_Err = io.Copy(templ_7745c5c3_W, templ_7745c5c3_Buffer)
+			}
+			return templ_7745c5c3_Err
+		})
+		templ_7745c5c3_Err = form.Form(form.FormOpts{
+			Label:      "Create new Item",
+			Handler:    handle,
+			Id:         "create-item-form",
+			ButtonText: "Create",
+			Encoding:   "multipart/form-data",
+		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func backButtons() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"\"><a class=\"button is-primary\" href=\"/\">Back</a></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func old() templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"uploadForm\" hx-post=\"/item/new\" hx-encoding=\"multipart/form-data\"><div class=\"field\"><label class=\"label\">Name:</label><div class=\"control\"><input class=\"input\" name=\"name\" id=\"name\" placeholder=\"Enter Item&#39;s name\" required></div></div><div class=\"field\"><label class=\"label\">Description:</label><div class=\"control\"><input class=\"input\" name=\"description\" id=\"description\" placeholder=\"Enter Item&#39;s description\" required></div></div><div class=\"field\"><label class=\"label\">Starting Price for biddings</label><div class=\"control has-icons-right money-input\"><input class=\"input\" name=\"starting_price\" id=\"starting_price\" placeholder=\"0\" required> <span class=\"icon is-small is-right currency-symbol\">$</span></div><script>\n\t\t\t\t\t\tdocument.getElementById(\"starting_price\").addEventListener(\"change\", (e) => {\n\t\t\t\t\t\t\tlet value = e.target.value;\n\t\t\t\t\t\t\tvalue = value.replace(/[^0-9.]/g, '');\n\t\t\t\t\t\t\tconst parts = value.split('.');\n\t\t\t\t\t\t\tif (parts.length > 2) {\n\t\t\t\t\t\t\t\tvalue = parts[0] + '.' + parts.slice(1).join('');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\te.target.value = value;\n\t\t\t\t\t\t});\n\t\t\t\t\t</script></div><div class=\"field\"><label>Image:</label> <input type=\"file\" id=\"image\" name=\"image\" required></div><div class=\"field\"><label class=\"label\">This auction will be closed:</label> <input class=\"control\" id=\"closed_at\" required></div><div class=\"control has-text-centered\"><button class=\"button is-primary\" type=\"submit\">Create Item</button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
