@@ -8,7 +8,7 @@ templ formPage() {
 	@page.Page(page.Header("Log In - AnAuction")) {
 		@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), backButtons())
 		<div class="container is-max-desktop mt-6">
-			@createForm("/")
+			@createForm("/item/new")
 		</div>
 	}
 }
@@ -44,6 +44,12 @@ templ createForm(handle string) {
 			Currency:    "$",
 			Required:    true,
 		})
+		@form.DateTimeField(form.DateTimeFieldOpts{
+			Label:    "Select when an auction should close:",
+			Id:       "closed_at_time",
+			Name:     "closed_at_time",
+			Required: true,
+		})
 		@form.File(form.FileOpts{
 			Id:       "image",
 			Name:     "image",
@@ -51,7 +57,6 @@ templ createForm(handle string) {
 			Type:     "file",
 			Required: true,
 		})
-		@form.Calendar(form.CalendarOpts{})
 	}
 }
 

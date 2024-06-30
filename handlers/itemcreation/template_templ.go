@@ -41,7 +41,7 @@ func formPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = createForm("/").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = createForm("/item/new").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -128,11 +128,10 @@ func createForm(handle string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = form.File(form.FileOpts{
-				Id:       "image",
-				Name:     "image",
-				Label:    "Item's Image",
-				Type:     "file",
+			templ_7745c5c3_Err = form.DateTimeField(form.DateTimeFieldOpts{
+				Label:    "Select when an auction should close:",
+				Id:       "closed_at_time",
+				Name:     "closed_at_time",
 				Required: true,
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
@@ -142,7 +141,13 @@ func createForm(handle string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = form.Calendar(form.CalendarOpts{}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = form.File(form.FileOpts{
+				Id:       "image",
+				Name:     "image",
+				Label:    "Item's Image",
+				Type:     "file",
+				Required: true,
+			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
