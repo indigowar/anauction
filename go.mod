@@ -5,7 +5,7 @@ go 1.22.3
 require github.com/alexedwards/scs/v2 v2.8.0
 
 require (
-	github.com/a-h/templ v0.2.707 // indirect
+	github.com/a-h/templ v0.2.747 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
