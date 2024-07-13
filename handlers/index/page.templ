@@ -1,8 +1,10 @@
 package index
 
-import "time"
-import "github.com/indigowar/anauction/templates/navigation"
-import "github.com/indigowar/anauction/templates/page"
+import (
+	"github.com/indigowar/anauction/templates/navigation"
+	"github.com/indigowar/anauction/templates/page"
+	"time"
+)
 
 // TODO: Rewrite this to use real data
 templ index(isLoggedIn bool) {
@@ -30,7 +32,7 @@ templ authGuestButtons() {
 templ loggedInButtons() {
 	<div class="buttons">
 		<a class="button is-primary" href="/profile">Profile</a>
-		<a class="button is-warning" href="/item/add">+</a>
+		<a class="button is-warning" href="/item/new">+</a>
 	</div>
 }
 

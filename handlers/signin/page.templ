@@ -5,7 +5,7 @@ import "github.com/indigowar/anauction/templates/form"
 import "github.com/indigowar/anauction/templates/navigation"
 
 templ signIn() {
-	@page.Page(page.Header("Log In - AnAuction")) {
+	@page.Page(page.Header("Sign in - AnAuction")) {
 		@navigation.Bar("/static/img/favicon.svg", "/", navigation.EmptySpace(), loginButtonSet())
 		<div class={ "container", "is-max-desktop", "mt-6" }>
 			@form.Form(form.FormOpts{
@@ -73,7 +73,7 @@ templ formWithInvalidEmail(name, email, password, emailError string) {
 			Name:        "email",
 			Value:       email,
 			Required:    true,
-		
+
 			IsDanger: true,
 		})
 		<p class="help is-danger">{ emailError }</p>

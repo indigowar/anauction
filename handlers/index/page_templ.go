@@ -8,9 +8,11 @@ package index
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "time"
-import "github.com/indigowar/anauction/templates/navigation"
-import "github.com/indigowar/anauction/templates/page"
+import (
+	"github.com/indigowar/anauction/templates/navigation"
+	"github.com/indigowar/anauction/templates/page"
+	"time"
+)
 
 // TODO: Rewrite this to use real data
 func index(isLoggedIn bool) templ.Component {
@@ -128,7 +130,7 @@ func loggedInButtons() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"buttons\"><a class=\"button is-primary\" href=\"/profile\">Profile</a> <a class=\"button is-warning\" href=\"/item/add\">+</a></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"buttons\"><a class=\"button is-primary\" href=\"/profile\">Profile</a> <a class=\"button is-warning\" href=\"/item/new\">+</a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -257,7 +259,7 @@ func item() templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(time.Now().UTC().Format("03:04 - 02-01-06"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `handlers/index/page.templ`, Line: 126, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `handlers/index/page.templ`, Line: 128, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
